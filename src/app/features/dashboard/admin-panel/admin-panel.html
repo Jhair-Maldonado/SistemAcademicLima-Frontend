@@ -1,0 +1,117 @@
+<div class="min-h-screen bg-gray-950 flex font-sans text-gray-200">
+  
+  <aside class="w-64 bg-gray-900 border-r border-gray-800 flex flex-col">
+    <div class="p-6">
+      <h1 class="text-lg font-bold text-white">SistemAcademic<span class="text-blue-500">Lima</span></h1>
+    </div>
+    
+    <nav class="flex-1 px-4 space-y-2">
+      <a routerLink="/dashboard" routerLinkActive="bg-blue-500/10 text-blue-400" [routerLinkActiveOptions]="{exact: true}"
+         class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-xl transition-all font-medium">
+        <i class="fa-solid fa-chart-line mr-3"></i> Dashboard
+      </a>
+      
+      <a routerLink="/curriculum/grades" routerLinkActive="bg-blue-500/10 text-blue-400"
+         class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-xl transition-all">
+        <i class="fa-solid fa-book mr-3"></i> Registro MINEDU
+      </a>
+      
+      <a routerLink="/classroom/course/1" routerLinkActive="bg-blue-500/10 text-blue-400"
+         class="flex items-center px-4 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-xl transition-all">
+        <i class="fa-solid fa-chalkboard-user mr-3"></i> Cursos Activos
+      </a>
+    </nav>
+
+
+    <div class="p-4 border-t border-gray-800">
+      <button (click)="logout()" class="w-full flex items-center px-4 py-3 text-gray-400 hover:bg-red-500/10 hover:text-red-400 rounded-xl transition-all">
+        <i class="fa-solid fa-right-from-bracket mr-3"></i> Cerrar Sesión
+      </button>
+    </div>
+  </aside>
+
+  <main class="flex-1 overflow-y-auto p-8">
+    
+    <header class="flex justify-between items-center mb-8">
+      <div>
+        <h2 class="text-2xl font-bold text-white">Panel de Dirección</h2>
+        <p class="text-gray-400 text-sm">Bienvenido de nuevo, {{ userName }}</p>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span class="bg-gray-800 px-4 py-2 rounded-full text-xs font-semibold text-blue-400 border border-blue-500/20">
+          Sede Central • Activo
+        </span>
+      </div>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8" *ngIf="stats">
+      <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800">
+        <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">Total Alumnos</p>
+        <h3 class="text-3xl font-bold text-white mt-1">{{ stats.totalAlumnos }}</h3>
+      </div>
+      <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800">
+        <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">Asistencia Mes</p>
+        <h3 class="text-3xl font-bold text-blue-400 mt-1">{{ stats.asistenciaPromedio }}</h3>
+      </div>
+      <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800">
+        <p class="text-gray-400 text-xs font-bold uppercase tracking-wider">Aulas Activas</p>
+        <h3 class="text-3xl font-bold text-white mt-1">{{ stats.aulasActivas }}</h3>
+      </div>
+      <div class="bg-gray-900 p-6 rounded-2xl border border-orange-900/30">
+        <p class="text-orange-400 text-xs font-bold uppercase tracking-wider">En Riesgo (IA)</p>
+        <h3 class="text-3xl font-bold text-white mt-1">{{ stats.alumnosRiesgo }}</h3>
+      </div>
+    </div>
+
+    <section class="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden shadow-2xl">
+      <div class="p-8 border-b border-gray-800 flex justify-between items-center bg-gradient-to-r from-gray-900 to-blue-900/20">
+        <div>
+          <h3 class="text-xl font-bold text-white flex items-center">
+            <i class="fa-solid fa-wand-magic-sparkles text-blue-400 mr-3"></i>
+            Análisis Predictivo
+          </h3>
+          <p class="text-gray-400 text-sm mt-1">Algoritmo basado en IA para detección de deserción y bajo rendimiento.</p>
+        </div>
+        <button 
+          (click)="runAIAnalysis()"
+          [disabled]="isAnalyzing"
+          class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-xl transition-all disabled:opacity-50 flex items-center">
+          <i class="fa-solid fa-play mr-2" *ngIf="!isAnalyzing"></i>
+          {{ isAnalyzing ? 'Analizando Datos...' : 'Ejecutar Diagnóstico' }}
+        </button>
+      </div>
+
+      <div class="p-8">
+        <div *ngIf="!aiResult && !isAnalyzing" class="text-center py-12">
+          <i class="fa-solid fa-robot text-gray-700 text-5xl mb-4"></i>
+          <p class="text-gray-500">Haz clic en el botón naranja para iniciar el escaneo de rendimiento académico.</p>
+        </div>
+
+        <div *ngIf="isAnalyzing" class="flex flex-col items-center py-12">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+          <p class="mt-4 text-blue-400 font-medium animate-pulse">Procesando historial de notas y asistencia...</p>
+        </div>
+
+        <div *ngIf="aiResult" class="animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div class="flex items-start space-x-4 bg-gray-800/50 p-6 rounded-xl border border-blue-500/20">
+            <div class="bg-blue-500/20 p-3 rounded-lg">
+              <i class="fa-solid fa-brain text-blue-400 text-xl"></i>
+            </div>
+            <div>
+              <div class="flex items-center space-x-3 mb-2">
+                <span class="text-xs font-bold bg-blue-500 text-white px-2 py-0.5 rounded">RECOMENDACIÓN IA</span>
+                <span class="text-xs text-gray-400 uppercase">{{ aiResult.fecha }}</span>
+              </div>
+              <p class="text-white leading-relaxed text-lg">{{ aiResult.analisis }}</p>
+              <div class="mt-4 flex space-x-4">
+                <button class="text-sm font-bold text-blue-400 hover:underline">Ver Alumnos Implicados</button>
+                <button class="text-sm font-bold text-gray-400 hover:underline">Descargar Reporte PDF</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>

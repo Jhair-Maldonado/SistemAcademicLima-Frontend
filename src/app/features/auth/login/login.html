@@ -1,0 +1,75 @@
+<div class="min-h-screen flex items-center justify-center bg-slate-950 px-4 relative overflow-hidden">
+  
+  <div class="absolute -top-40 -left-40 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
+  <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-orange-600/5 rounded-full blur-3xl"></div>
+
+  <div class="max-w-md w-full bg-slate-900/80 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-800 p-8 space-y-8 relative z-10">
+    
+    <div class="text-center">
+      <div class="mx-auto flex items-center justify-center h-14 w-14 rounded-xl bg-blue-500/10 border border-blue-500/20 mb-4 shadow-inner">
+        <svg class="h-7 w-7 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+        </svg>
+      </div>
+      <h2 class="text-2xl font-black text-white tracking-tight">
+        SistemAcademic<span class="text-blue-500">Lima</span>
+      </h2>
+      <p class="mt-1.5 text-xs text-slate-400 font-medium uppercase tracking-wider">
+        Plataforma de Gestión Asistida por IA
+      </p>
+    </div>
+
+    <form class="space-y-5" (ngSubmit)="onSubmit()">
+      
+      <div *ngIf="errorMessage" class="bg-red-500/10 border border-red-500/30 text-red-400 text-xs p-3 rounded-xl text-center">
+        <i class="fa-solid fa-circle-exclamation mr-1.5"></i> {{ errorMessage }}
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label for="username" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">DNI o Usuario</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500">
+              <i class="fa-solid fa-user text-sm"></i>
+            </span>
+            <input id="username" name="username" type="text" required 
+              [(ngModel)]="username"
+              class="block w-full pl-10 pr-4 py-3 bg-slate-800/60 border border-slate-700/70 rounded-xl text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" 
+              placeholder="Escribe 'admin'">
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label for="password" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">Contraseña</label>
+            <a href="#" class="text-xs font-medium text-blue-400 hover:text-blue-300 transition-colors">¿Olvidó su clave?</a>
+          </div>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500">
+              <i class="fa-solid fa-lock text-sm"></i>
+            </span>
+            <input id="password" name="password" type="password" required 
+              [(ngModel)]="password"
+              class="block w-full pl-10 pr-4 py-3 bg-slate-800/60 border border-slate-700/70 rounded-xl text-white text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" 
+              placeholder="•••••••• (Escribe '1234')">
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <button type="submit" [disabled]="isLoading"
+          class="w-full flex justify-center items-center py-3 px-4 bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold rounded-xl transition-all duration-200 shadow-lg shadow-orange-500/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 cursor-pointer">
+          <span *ngIf="isLoading" class="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></span>
+          {{ isLoading ? 'Autenticando...' : 'Ingresar al Sistema' }}
+        </button>
+      </div>
+
+    </form>
+
+    <div class="text-center text-[10px] text-slate-500 border-t border-slate-800/60 pt-4">
+      Estándares de seguridad alineados con la normativa CNEB - MINEDU.
+    </div>
+
+  </div>
+</div>
