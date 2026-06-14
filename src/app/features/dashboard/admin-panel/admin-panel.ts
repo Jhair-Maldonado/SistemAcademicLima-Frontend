@@ -2,11 +2,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { Academic } from '../../../core/services/academic/academic';
+import { ChatAssistant } from '../../ai/chat-assistant/chat-assistant';
 
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ChatAssistant],
   templateUrl: './admin-panel.html',
   styleUrl: './admin-panel.css'
 })
